@@ -1,0 +1,85 @@
+# semple-aigc-canvas-auth Nacos 配置
+# Data ID: semple-aigc-canvas-auth.yml
+# Group: SEMPLE_AIGC_CANVAS_GROUP
+
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:0}
+      timeout: 10s
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:semple_aigc_canvas}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.semple.aigc.canvas.api.system.domain
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+jwt:
+  secret: ${JWT_SECRET:f2/NZx7JXUSoGpSVsCCbP0Iiw3UE1dPXl2hFz09qM89mF2ctc9TASgXxH1/POeLa}
+  expiration-minutes: ${JWT_EXPIRATION_MINUTES:10080}
+  expired-code-window-minutes: ${JWT_EXPIRED_CODE_WINDOW_MINUTES:43200}
+  header: Authorization
+  token-prefix: "Bearer "
+
+mail:
+  host: smtp.163.com
+  port: 465
+  username: fansukeji@163.com
+  password: ${MAIL_PASSWORD:}
+  from: fansukeji@163.com
+  from-name: semple-aigc-canvas
+  ssl-enabled: true
+
+volcengine:
+  sms:
+    access-key: ${VOLCENGINE_SMS_ACCESS_KEY:}
+    secret-key: ${VOLCENGINE_SMS_SECRET_KEY:}
+    sign-name: ${VOLCENGINE_SMS_SIGN_NAME:}
+    template-code: ${VOLCENGINE_SMS_TEMPLATE_CODE:}
+
+semple-aigc-canvas:
+  mybatis-plus:
+    sql-log-enabled: true
+  redis:
+    key-prefix: "semple-aigc-canvas:"
+  web:
+    log:
+      enabled: true
+      request-enabled: true
+      response-enabled: true
+      include-headers: false
+      max-payload-length: 2000
+      exclude-paths:
+        - /actuator/**
+      sensitive-fields:
+        - password
+        - oldPassword
+        - newPassword
+        - confirmPassword
+        - token
+        - accessToken
+        - refreshToken
+        - authorization
+        - secret
+        - secretKey
+        - accessKey
+        - captcha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

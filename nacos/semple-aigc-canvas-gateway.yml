@@ -1,0 +1,96 @@
+# semple-aigc-canvas-gateway Nacos 配置
+# Data ID: semple-aigc-canvas-gateway.yml
+# Group: SEMPLE_AIGC_CANVAS_GROUP
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: semple-aigc-canvas-aigc-swagger
+          uri: lb://semple-aigc-canvas-aigc
+          predicates:
+            - Path=/swagger-ui.html,/swagger-ui/**,/v3/api-docs,/v3/api-docs/**,/v3/api-docs.yaml
+
+        - id: semple-aigc-canvas-aigc-email-auth
+          uri: lb://semple-aigc-canvas-aigc
+          predicates:
+            - Path=/auth/email/captcha,/auth/login/email
+
+        - id: semple-aigc-canvas-auth
+          uri: lb://semple-aigc-canvas-auth
+          predicates:
+            - Path=/auth/**
+
+        - id: semple-aigc-canvas-system
+          uri: lb://semple-aigc-canvas-system
+          predicates:
+            - Path=/system/**
+
+        - id: semple-aigc-canvas-file
+          uri: lb://semple-aigc-canvas-file
+          predicates:
+            - Path=/file/**,/tos/**
+
+        - id: semple-aigc-canvas-aigc
+          uri: lb://semple-aigc-canvas-aigc
+          predicates:
+            - Path=/aigc/**
+          filters:
+            - StripPrefix=1
+
+        - id: semple-aigc-canvas-job
+          uri: lb://semple-aigc-canvas-job
+          predicates:
+            - Path=/job/**
+
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowed-origin-patterns:
+              - "*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowed-headers:
+              - "*"
+            exposed-headers:
+              - Authorization
+            allow-credentials: true
+            max-age: 3600
+
+jwt:
+  secret: ${JWT_SECRET:f2/NZx7JXUSoGpSVsCCbP0Iiw3UE1dPXl2hFz09qM89mF2ctc9TASgXxH1/POeLa}
+  expiration-minutes: ${JWT_EXPIRATION_MINUTES:10080}
+  expired-code-window-minutes: ${JWT_EXPIRED_CODE_WINDOW_MINUTES:43200}
+  header: Authorization
+  token-prefix: "Bearer "
+
+security:
+  internal-token: ${INTERNAL_SERVICE_TOKEN:}
+  ignore:
+    urls:
+      - /auth/login
+      - /auth/login/password
+      - /auth/login/email
+      - /auth/captcha
+      - /auth/email/captcha
+      - /aigc/auth/email/captcha
+      - /aigc/auth/login/email
+      - /auth/refresh
+      - /auth/ping
+      - /actuator/**
+      - /favicon.ico
+      - /swagger-ui.html
+      - /swagger-ui/**
+      - /v3/api-docs
+      - /v3/api-docs/**
+      - /v3/api-docs.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

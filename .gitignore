@@ -1,0 +1,21 @@
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Maven
+target/
+*.class
+*.jar
+*.war
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+
+docs/
+
+# Frontend dependencies and build output
+node_modules/
+dist/

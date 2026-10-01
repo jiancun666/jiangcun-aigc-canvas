@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.semple.aigc.canvas</groupId>
+        <artifactId>semple-aigc-canvas</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>semple-aigc-canvas-common</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>semple-aigc-canvas-common-core</module>
+        <module>semple-aigc-canvas-common-feign</module>
+        <module>semple-aigc-canvas-common-redis</module>
+        <module>semple-aigc-canvas-common-web</module>
+        <module>semple-aigc-canvas-common-security</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+</project>

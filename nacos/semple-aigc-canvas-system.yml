@@ -1,0 +1,54 @@
+# semple-aigc-canvas-system Nacos 配置
+# Data ID: semple-aigc-canvas-system.yml
+# Group: SEMPLE_AIGC_CANVAS_GROUP
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:semple_aigc_canvas}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+
+mybatis-plus:
+  mapper-locations:
+    - classpath*:/mapper/**/*.xml
+  type-aliases-package: com.semple.aigc.canvas.api.system.domain
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+semple-aigc-canvas:
+  mybatis-plus:
+    sql-log-enabled: true
+  web:
+    log:
+      enabled: true
+      request-enabled: true
+      response-enabled: true
+      include-headers: false
+      max-payload-length: 2000
+      exclude-paths:
+        - /actuator/**
+      sensitive-fields:
+        - password
+        - oldPassword
+        - newPassword
+        - confirmPassword
+        - token
+        - accessToken
+        - refreshToken
+        - authorization
+        - secret
+        - secretKey
+        - accessKey
+        - captcha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

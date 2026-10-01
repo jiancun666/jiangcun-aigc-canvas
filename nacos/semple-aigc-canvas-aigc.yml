@@ -1,0 +1,54 @@
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:0}
+      timeout: 10s
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:semple_aigc_canvas}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+jwt:
+  secret: ${JWT_SECRET:f2/NZx7JXUSoGpSVsCCbP0Iiw3UE1dPXl2hFz09qM89mF2ctc9TASgXxH1/POeLa}
+  expiration-minutes: ${JWT_EXPIRATION_MINUTES:10080}
+  expired-code-window-minutes: ${JWT_EXPIRED_CODE_WINDOW_MINUTES:43200}
+
+security:
+  internal-token: ${INTERNAL_SERVICE_TOKEN:}
+
+mail:
+  host: ${MAIL_HOST:smtp.163.com}
+  port: ${MAIL_PORT:465}
+  username: ${MAIL_USERNAME:}
+  password: ${MAIL_PASSWORD:}
+  from: ${MAIL_FROM:}
+  from-name: ${MAIL_FROM_NAME:semple-aigc-canvas}
+  ssl-enabled: ${MAIL_SSL_ENABLED:true}
+
+semple-aigc-canvas:
+  project:
+    recycle-retention-days: 30
+    purge-batch-size: 100
+  generation:
+    worker:
+      fixed-delay-ms: 2000
+      batch-size: 20
+      lease-seconds: 60
+      poll-seconds: 5
+  mybatis-plus:
+    sql-log-enabled: true

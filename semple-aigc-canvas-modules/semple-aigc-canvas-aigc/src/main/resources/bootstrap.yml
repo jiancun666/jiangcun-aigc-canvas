@@ -1,0 +1,52 @@
+# 百炼凭证通过环境变量或配置中心注入。
+DASHSCOPE_API_KEY: ${DASHSCOPE_API_KEY:}
+
+spring:
+  application:
+    name: semple-aigc-canvas-aigc
+  config:
+    import:
+      - optional:nacos:semple-aigc-canvas-aigc.yml
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:10.1.3.34:8848}
+        namespace: ${NACOS_NAMESPACE:aigc_canvas}
+#        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+#        namespace: ${NACOS_NAMESPACE:aigc_canvas}
+        group: ${NACOS_GROUP:SEMPLE_SEMPLE_AIGC_CANVAS_GROUP}
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:Yml8866.}
+      config:
+        server-addr: ${NACOS_SERVER_ADDR:10.1.3.34:8848}
+        namespace: ${NACOS_NAMESPACE:aigc_canvas}
+#        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+#        namespace: ${NACOS_NAMESPACE:aigc_canvas}
+        group: ${NACOS_GROUP:SEMPLE_AIGC_CANVAS_GROUP}
+        file-extension: yml
+        refresh-enabled: true
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:Yml8866.}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
+    disable-swagger-default-url: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+  packages-to-scan: com.semple.aigc.canvas.modules.aigc.controller
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+
+semple-aigc-canvas:
+  mybatis-plus:
+    sql-log-enabled: true
